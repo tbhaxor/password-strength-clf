@@ -1,0 +1,37 @@
+[tool.poetry]
+name = "password-strength"
+version = "0.1.0"
+description = "Machine learning example of password strength classifier"
+authors = ["Gurkirat Singh <tbhaxor@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+keras = "^3.0.0"
+jax = {extras = ["cuda12-local"], version = "^0.4.20"}
+pandas = "^2.1.3"
+scikit-learn = "^1.3.2"
+argparse = "^1.4.0"
+numpy = "^1.26.2"
+
+
+[[tool.poetry.source]]
+name = "jax"
+url = "https://storage.googleapis.com/jax-releases/jax_cuda_releases.html"
+priority = "supplemental"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.11.0"
+isort = "^5.12.0"
+
+[tool.isort]
+profile = "black"
+
+[tool.black]
+line-length = 128
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
