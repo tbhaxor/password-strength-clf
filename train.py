@@ -66,7 +66,7 @@ parser.add_argument(
     type=str,
     metavar="CHARACTERS",
     help="vocabulary for the passwords to train the model on",
-),
+)
 parser.add_argument(
     "--validation-split",
     type=float,
