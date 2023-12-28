@@ -1,4 +1,3 @@
-import os
 import string
 from argparse import (
     ArgumentDefaultsHelpFormatter,
@@ -113,16 +112,20 @@ def get_model(
     if model_path and model_path.exists():
         model.load_weights(model_path)
 
-    if learning_rate is not None:
-        model.compile(
-            optimizer=Adam(learning_rate=learning_rate),
-            loss=CategoricalCrossentropy(from_logits=True),
-            metrics=[
-                Precision(name="precision"),
-                Recall(name="recall"),
-                CategoricalAccuracy(name="categorical_accuracy"),
-            ],
-        )
+    if learning_rate is None:
+        optimizer = "adam"
+    else:
+        optimizer = Adam(learning_rate=learning_rate)
+
+    model.compile(
+        optimizer=optimizer,
+        loss=CategoricalCrossentropy(from_logits=True),
+        metrics=[
+            Precision(name="precision"),
+            Recall(name="recall"),
+            CategoricalAccuracy(name="categorical_accuracy"),
+        ],
+    )
 
     return model
 
@@ -135,7 +138,7 @@ def fit_model(
     epochs: int,
     save_path: str,
     model: Model,
-):
+) -> Model:
     model.fit(
         X,
         y,
@@ -147,3 +150,5 @@ def fit_model(
             ModelCheckpoint(save_path, save_best_only=True, save_weights_only=True),
         ],
     )
+
+    return get_model(X.shape[1:],  model_path=save_path)

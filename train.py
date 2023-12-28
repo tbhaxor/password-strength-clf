@@ -4,11 +4,8 @@ os.environ["KERAS_BACKEND"] = "jax"
 
 from argparse import ArgumentParser
 from pathlib import Path
-
 from keras import ops
-
 from utils import (
-    CLASS_NAMES,
     DEFAULT_CHARSET,
     MixedFormatter,
     TrainArgs,
@@ -18,6 +15,7 @@ from utils import (
     get_vectorized,
     read_data,
     split_dataset,
+    CLASS_NAMES,
 )
 
 BASE_DIR = Path(__file__).parent.relative_to(Path.cwd())
@@ -106,30 +104,24 @@ X_train, X_test, y_train, y_test = split_dataset(X, y)
 print("Number samples for training:", X_train.shape[0])
 print("Number samples for testing:", X_test.shape[0])
 
-# model = get_model(X_train.shape[1:], args.learning_rate, args.dropout_rate)
-# model.summary()
-# fit_model(
-#     X,
-#     y,
-#     args.validation_split,
-#     args.batch_size,
-#     args.epochs,
-#     args.model_path,
-#     model,
-# )
-
-best_model = get_model(
-    X.shape[1:],
-    # args.learning_rate,
-    model_path=args.model_path,
+model = get_model(X_train.shape[1:], args.learning_rate, args.dropout_rate)
+model.summary()
+best_model = fit_model(
+    X,
+    y,
+    args.validation_split,
+    args.batch_size,
+    args.epochs,
+    args.model_path,
+    model,
 )
 
-# print("Evalutating the best model")
-# evalutation = best_model.evaluate(X_test, y_test, return_dict=True)
-# print(f"\tLoss: {evalutation['loss']}")
-# print(f"\tAccuracy: {evalutation['categorical_accuracy']}")
-# print(f"\tPrecision: {evalutation['precision']}")
-# print(f"\tRecall: {evalutation['recall']}")
+print("Evaluating the best model")
+evaluation = best_model.evaluate(X_test, y_test, return_dict=True)
+print(f"\tLoss: {evaluation['loss']}")
+print(f"\tAccuracy: {evaluation['categorical_accuracy']}")
+print(f"\tPrecision: {evaluation['precision']}")
+print(f"\tRecall: {evaluation['recall']}")
 
 if args.passwords:
     print("Running user provided tests")
