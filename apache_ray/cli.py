@@ -62,10 +62,10 @@ parser.add_argument(
 args = parser.parse_args()
 CHARSET = args.vocab or DEFAULT_CHARSET
 
-ray.init(num_cpus=args.num_cpus, num_gpus=args.num_gpus)
+ray.init()
 
 
-@ray.remote
+@ray.remote(num_cpus=args.num_cpus, num_gpus=args.num_gpus)
 class Actor:
     def __init__(self, passwords: list[str]):
         self.passwords = passwords

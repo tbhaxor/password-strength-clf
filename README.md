@@ -153,6 +153,38 @@ y_class_id = ops.argmax(y_predicted, axis=1)
 y_class = CLASS_NAMES[y_class_id[0]]
 ```
 
+## Executing via Apache Ray
+
+Just learning how to execute the models on the distributed architecture using apache ray. You can simply run HELP 
+command to get basic details.
+
+```console
+$ python apache_ray/cli.py -h
+usage: cli.py [-h] [--model-path] [--vocab CHARACTERS] [-c NUM_CPUs] [-g NUM_GPUs] PASSWORD [...PASSWORD] [PASSWORD [...PASSWORD] ...]
+
+Distributed inference of the password classifier using Apache Ray cluster
+
+positional arguments:
+  PASSWORD [...PASSWORD]
+                        Provide the passwords to run inference on and return the classification results
+
+options:
+  -h, --help            show this help message and exit
+  --model-path          path to save only weights of the best model (default: trained-models/best_model)
+  --vocab CHARACTERS    vocabulary for the passwords to train the model on (default: None)
+  -c NUM_CPUs           Number of CPU cores to allocate (default: None)
+  -g NUM_GPUs           Number of GPUs to allocate (default: None)
+```
+
+**Basic Execution**
+
+```console
+$ python apache_ray/cli.py -g 1 1234 Test@1234
+2023-12-28 12:14:43,422 INFO worker.py:1724 -- Started a local Ray instance.
+1234: WEAK
+Test@1234: MODERATE
+```
+
 ## Contact Me
 
 Email: tbhaxor _at_ gmail _dot_ com <br />
