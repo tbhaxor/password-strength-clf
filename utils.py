@@ -151,4 +151,7 @@ def fit_model(
         ],
     )
 
-    return get_model(X.shape[1:],  model_path=save_path)
+    return get_model(
+        X.shape[1:],
+        model_path=save_path,
+    )
