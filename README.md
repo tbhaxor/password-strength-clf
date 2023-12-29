@@ -176,7 +176,7 @@ options:
   -g NUM_GPUs           Number of GPUs to allocate (default: None)
 ```
 
-**Basic Execution**
+### CLI Execution
 
 ```console
 $ python apache_ray/cli.py -g 1 1234 Test@1234
@@ -184,6 +184,33 @@ $ python apache_ray/cli.py -g 1 1234 Test@1234
 1234: WEAK
 Test@1234: MODERATE
 ```
+
+### Serving Model
+
+Run the following command from the project root directory
+
+```console
+serve run apache_ray.serve:clf
+```
+
+> [!NOTE]
+> You can now access the model at `http://localhost:8000`.
+
+```console
+$ curl http://localhost:8000 -H "Content-Type: application/json" -d '{"password": "Test@@1234*&%^^#"}'
+{
+  "statusCode": 200,
+  "strength": "MODERATE"
+}
+```
+
+**Environment Variables**
+
+|      Name      | Description                                                                     |
+|:--------------:|:--------------------------------------------------------------------------------|
+| `NUM_REPLICAS` | Number of replicas to run that handle requests to this deployment (Default : 1) |
+|   `NUM_GPUS`   | Number of GPU instances to allocate. (Default: 1)                               |
+
 
 ## Contact Me
 
